@@ -1,8 +1,19 @@
 import express from "express";
-import {createUser,updateUser,getUser, deleteUser} from '../controller/userController.js';
+import {createUser,updateUserProfile,getUserProfile, loginUser, logoutUser} from '../controller/userController.js';
+import { authenticate, authorizeAdmin } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-router.post('/create',createUser);
-router.get('/:id',getUser);
-router.put('/update',updateUser);
-router.delete('/delete',deleteUser);
+//intial user creation,login and logout
+router.post('/register',createUser);
+router.post('/login',loginUser);
+router.post('/logout',logoutUser);
+
+//user can update his profile and also see the profile details
+router
+.route("/profile")
+.get(authenticate, getUserProfile)
+.put(authenticate, updateUserProfile);
+
+
+
 export default router;

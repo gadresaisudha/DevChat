@@ -1,7 +1,13 @@
+//import from dependencies
 import express from "express";
 import dotenv from 'dotenv';
+import cookieParser from "cookie-parser";
+
+//import from the files
 import connectDB from "./config/db.js";
 import user from "./routes/userRoute.js";
+import post from "./routes/postRoute.js";
+
 
 //connecting to my database
 dotenv.config();
@@ -13,7 +19,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(cookieParser());
+app.use(cookieParser());
 app.use('/user',user);
+app.use('/post',post);
 
 app.listen(port,()=>console.log('server up'));
