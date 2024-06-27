@@ -23,4 +23,5 @@ app.use(cookieParser());
 app.use('/user',user);
 app.use('/post',post);
 
+
 app.listen(port,()=>console.log('server up'));

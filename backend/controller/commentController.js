@@ -7,22 +7,19 @@ import asyncHandler from '../middleware/asyncHandler.js';
 
 const createComment = asyncHandler(async(req,res)=>{
     const currentUser = await User.findById(req.user._id);
-
-    const {post,comment,likes,dislikes} = req.body;
-    
+    const {comment,likes,dislikes} = req.body;
+    const post = req.params.postId;
     //check if all exists are present
     if ( !post || !comment) {
         throw new Error("Please fill all the fields");
       }
     console.log(currentUser._id);
-    const newComment = new Comment({user: currentUser,post,comment,likes,dislikes});
+    const newComment = new Comment({user: currentUser,post: post,comment,likes,dislikes});
     
     //save document to the collection User
     try{
         await newComment.save();
-        res.status(201).json({id:newComment._id,username:newComment.user.username,email:newComment.user.email,
-                              postid:newComment.post._id,category:newComment.post.category,question:newComment.post.question,
-                              comment:newComment.comment,likes:newComment.likes,dislikes:newComment.dislikes});
+        res.status(201).json(newComment);
     }
     catch(error){
         console.error(`${error}`);
@@ -35,7 +32,7 @@ const createComment = asyncHandler(async(req,res)=>{
 
 const getAllComments = asyncHandler(async(req,res)=>{
     
-    const getAllComments = await Comment.findById(req.params._id);
+    const getAllComments = await Comment.find({post: req.params.postId});
 
     if (getAllComments) {
       res.json(getAllComments);
@@ -46,15 +43,32 @@ const getAllComments = asyncHandler(async(req,res)=>{
     
 
 });
-
-const updateComment = asyncHandler(async(req,res)=>{
+const getCommentById = asyncHandler(async(req,res)=>{
    
-    const currentComment = await Post.findOne({_id : req.params.id});
+  const currentComment = await Comment.findOne({_id : req.params.commentId, post: req.params.postId});
+
+  if (currentComment) {
+
+    res.json({
+      _id: currentComment._id,
+      comment:currentComment.comment,
+      likes:currentComment.likes,
+      dislikes:currentComment.dislikes
+    });
+  } else {
+    res.status(404);
+    throw new Error("Comment not found");
+  }
+});
+
+const updateCommentById = asyncHandler(async(req,res)=>{
+   
+    const currentComment = await Comment.findOne({_id : req.params.commentId,post: req.params.postId });
 
     if (currentComment) {
-        currentComment.question = req.body.comment || currentComment.comment;
+        currentComment.comment = req.body.comment || currentComment.comment;
         currentComment.likes = req.body.likes || currentComment.likes;
-        currentComment.dislikes = req.body.likes || currentComment.dislikes;
+        currentComment.dislikes = req.body.dislikes || currentComment.dislikes;
   
   
       const updatedComment = await currentComment.save();
@@ -73,4 +87,4 @@ const updateComment = asyncHandler(async(req,res)=>{
 
 
 
-export {getAllPosts,createPost,updatePost};
+export {createComment,getAllComments,updateCommentById,getCommentById};
