@@ -1,10 +1,12 @@
 import { Outlet } from "react-router"
-import { Header } from "./pages/Header"
-
+import { ToastContainer } from "react-toastify"
+import {Header} from './pages/Header'
+import "react-toastify/dist/ReactToastify.css";
 const App= () =>{
 
   return (
       <>
+      <ToastContainer/>
       <Header/>
       <Outlet/>
       </>

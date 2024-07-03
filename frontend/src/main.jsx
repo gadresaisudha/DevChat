@@ -10,6 +10,7 @@ import store from './redux/store.js';
 import Home from './pages/Home.jsx';
 import App from './App.jsx'
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path = '/' element={<App/>}>

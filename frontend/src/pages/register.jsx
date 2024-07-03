@@ -24,7 +24,7 @@ const handlesubmit = async (e) => {
     } else {
       try {
         const res = await register({ username, email, password }).unwrap();
-        console.log(res);
+   
         dispatch(setCredentials({ ...res }));
         toast.success("User successfully registered");
       } catch (err) {

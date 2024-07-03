@@ -43,7 +43,7 @@ const loginUser = asyncHandler(async(req,res)=>{
     
       //check if user already  exists
     const userExists = await User.findOne({ email });
-    console.log(userExists);
+  
     if (userExists){
 
       const isPasswordValid =  await bcrypt.compare(password,userExists.password);
