@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import { toast } from "react-toastify";
-import { useRegisterMutation } from '../redux/api/userSlice';
+import { useRegisterMutation } from '../../redux/api/userSlice';
 import React from 'react';
-import { setCredentials } from '../redux/features/authSlice';
+import { setCredentials } from '../../redux/features/authSlice';
 
 const Register = ()=>{
 const [email,setEmail] = useState('')

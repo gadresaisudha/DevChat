@@ -4,10 +4,10 @@ import './index.css'
 import {Route, RouterProvider,createRoutesFromElements} from 'react-router';
 import { createBrowserRouter } from 'react-router-dom';
 import {Provider} from 'react-redux';
-import Login from './pages/login.jsx';
-import Register from './pages/register.jsx';
+import Login from './pages/Auth/login.jsx';
+import Register from './pages/Auth/register.jsx';
 import store from './redux/store.js';
-import Home from './pages/Home.jsx';
+import Home from './pages/Auth/Home.jsx';
 import App from './App.jsx'
 
 
@@ -16,10 +16,13 @@ const router = createBrowserRouter(
     <Route path = '/' element={<App/>}>
       <Route path = '/login' element={<Login/>}></Route>
       <Route path = '/register' element={<Register/>}></Route>
-      <Route index={true} path = '/' element={<Home/>}></Route>
+      <Route index={true} path = '/home' element={<Home/>}></Route>
+      
     </Route>
   )
 )
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store ={store}>
     <RouterProvider router = {router}/>
